@@ -11,24 +11,21 @@ extern crate cc;
 use std::env;
 
 fn main() {
-    match env::var_os("CARGO_CFG_TARGET_ARCH") {
-        Some(target_arch) => {
-            if target_arch == "arm" {
-                cc::Build::new()
-                    .file("src/asm/cache32.s")
-                    .flag("-march=armv8-a")
-                    .flag("-mfpu=neon-fp-armv8")
-                    .flag("-mfloat-abi=hard")
-                    .compile("cache");
-            }
-
-            if target_arch == "aarch64" {
-                cc::Build::new()
-                    .file("src/asm/cache64.s")
-                    .flag("-march=armv8-a")
-                    .compile("cache");
-            }
+    if let Some(target_arch) = env::var_os("CARGO_CFG_TARGET_ARCH") {
+        if target_arch == "arm" {
+            cc::Build::new()
+                .file("src/asm/cache32.s")
+                .flag("-march=armv8-a")
+                .flag("-mfpu=neon-fp-armv8")
+                .flag("-mfloat-abi=hard")
+                .compile("cache");
         }
-        _ => (),
+
+        if target_arch == "aarch64" {
+            cc::Build::new()
+                .file("src/asm/cache64.s")
+                .flag("-march=armv8-a")
+                .compile("cache");
+        }
     }
 }

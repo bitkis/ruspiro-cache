@@ -12,8 +12,6 @@
  * License: Apache License 2.0
  **********************************************************************************************************************/
 
-.global __flush_icache_range
-.global __flush_dcache_range
 .global __invalidate_dcache
 .global __clean_dcache
 .global __cleaninvalidate_dcache
