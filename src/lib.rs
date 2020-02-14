@@ -41,8 +41,16 @@ pub fn cleaninvalidate() {
     unsafe { __cleaninvalidate_dcache() }
 }
 
+#[cfg(any(target_arch = "arm", target_arch = "aarch64"))]
 extern "C" {
     fn __clean_dcache();
     fn __invalidate_dcache();
     fn __cleaninvalidate_dcache();
 }
+
+#[cfg(not(any(target_arch = "arm", target_arch = "aarch64")))]
+fn __clean_dcache() {}
+#[cfg(not(any(target_arch = "arm", target_arch = "aarch64")))]
+fn __invalidate_dcache() {}
+#[cfg(not(any(target_arch = "arm", target_arch = "aarch64")))]
+fn __cleaninvalidate_dcache() {}
